@@ -64,7 +64,7 @@
 							<section class="posts">
 								<article>
 									<header>
-										<h2><a href="#">Major Contributions<br />
+										<h2>Major Contributions<br />
 									</header>
 									<ul class="text-small">
 										<li><strong>Enemy System:</strong> Built three unique enemies (slime, walker, projectile enemy), added enemy variants, and placed enemy spawners throughout the map.</li>
@@ -84,7 +84,7 @@
 								</article>
 								<article class="reaper-text">
 									<header>
-										<h2><a href="#">Miniboss Logic<br />
+										<h2>Miniboss Logic<br />
 									</header>
 									<p class="text-small">While working on the Reaper miniboss AI in Photon Quantum, I discovered a recurring issue where multiple abilities were being scheduled as separate FrameEvents, but Quantum’s deterministic frame queue would occasionally execute them out of order. Because each attack—teleport, shoot, and shockwave—was triggered from different parts of the codebase, the miniboss could end up with overlapping states or back-to-back actions that ignored intended cooldowns. This resulted in desynced client simulations, unpredictable attack patterns, and cases where the miniboss entered conflicting animation states. To solve this, I decided the entire attack-selection process needed to be centralized into a single, deterministic decision step.<br><br>I created a contained function that gathers all relevant state from the miniboss, its health, its phase, and its internal counters, then resolves the next action in one pass. This function ensures that only one FrameEvent is ever queued per decision cycle, and that the event is correctly associated with the miniboss's state machine. By consolidating the logic, I was able to enforce strict ordering, preserve deterministic behavior across clients, and make the boss’s attack loop maintainable and fully predictable. The final system not only fixed the desync issues, but also allowed me to implement more advanced phase behavior, looping attack sequences, and clean transitions between abilities—all controlled through a single, reliable decision-making function.</p>
 									<a href="#" class="image fit"><img src="images/ReaperPhase2.gif" alt="" /></a>	
@@ -94,7 +94,7 @@
 								
 								<article class="enemy-text">
 									<header>
-										<h2><a href="#">Enemy Detection</a></h2>
+										<h2>Enemy Detection</a></h2>
 									</header>
 									<p class="text-small">Originally, every enemy in the game performed its own circular Shape2D detection scan each frame to search for nearby players. While this approach was simple, it did not scale—large groups of enemies would each run multiple physics queries every few frames, overwhelming the deterministic physics system and causing noticeable spikes and frame hitches. Because all detection happened on the enemy side, the cost increased linearly with enemy count, and arenas that can contain 100+ active enemies at once suffered from significant performance degradation. It became clear that enemy-driven detection had to be replaced with a more efficient system.<br> <br>The fix was to invert the process: instead of every enemy searching for the player, the player searches for nearby enemies. Once an enemy is found within a player’s detection radius, the enemy is assigned an Aggressive component, which immediately hands control over to the enemy’s state and pathing logic. From that point on, the enemy no longer performs heavy detection queries—it simply reacts and pathfinds toward its assigned target. This player-driven approach reduced the number of physics queries from “potentially hundreds per frame” down to a predictable “once per player per interval,” eliminating lag while maintaining identical gameplay behavior.</p>	
 									<a href="#" class="image fit"><img src="images/EnemyDetection.gif" alt="" /></a>	
@@ -166,11 +166,11 @@
 							</section>
 							<section>
 								<h3>Phone</h3>
-								<p><a href="#">630-460-0204</a></p>
+								<p>630-460-0204</a></p>
 							</section>
 							<section>
 								<h3>Email</h3>
-								<p><a href="#">jpacentine1@gmail.com</a></p>
+								<p>jpacentine1@gmail.com</a></p>
 							</section>
 							<section>
 								<h3>Social</h3>
