@@ -29,6 +29,8 @@ section, summary, time, mark, audio, video {
     font-size: 90%;
 }
 
+
+
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;}
@@ -300,10 +302,10 @@ input, select, textarea {
 		border-bottom-color: rgba(33, 41, 49, 0.5);
 	}
 
-		a:hover {
+		/*a:hover {
 			border-bottom-color: transparent;
 			color: #18bfef !important;
-		}
+		}*/
 
 	strong, b {
 		color: #212931;
@@ -2629,17 +2631,30 @@ input, select, textarea {
 		}
 
 		.image.halffit {
-				display: block;
-				width: 50%;
-				margin: 0.5rem auto;
-				text-align: center;
-			}
+			display: block;
+			width: 50%;
+			margin: 0.5rem auto;
+			text-align: center;
+		}
 
-			.image.halffit img {
-				width: 100%;
-				height: auto;
-				display: block;
-			}
+		.image.halffit img {
+			width: 100%;
+			height: auto;
+			display: block;
+		}
+
+		.image.nohalffit {
+			display: block;
+			width: 60%;              /* ↓ make the background smaller */
+			margin: -2rem auto;
+			text-align: center;
+		}
+
+		.image.nohalffit img {
+			width: 100%;
+			height: auto;
+			display: block;
+		}
 
 		.image.fit {
 			display: block;
@@ -3819,6 +3834,31 @@ input, select, textarea {
 				text-align: center;
 			}
 
+			.enemy-detection-wrapper {
+				display: flex;
+				flex-wrap: wrap;
+			}
+
+			.reaper-images {
+				order: 1;
+				flex: 1 1 50%;
+			}
+
+			.reaper-text {
+				order: 2;
+				flex: 1 1 50%;
+			}
+
+			.enemy-images {
+				order: 4;
+				flex: 1 1 50%;
+			}
+
+			.enemy-text {
+				order: 3;
+				flex: 1 1 50%;
+			}
+
 			@media screen and (max-width: 1280px) {
 
 				#main > .post {
@@ -3843,6 +3883,31 @@ input, select, textarea {
 						line-height: 1.2;
 						margin: 0 0 1.5rem 0;
 					}
+
+				.enemy-detection-wrapper {
+					flex-direction: column; /* stack vertically */
+				}
+
+				.reaper-images {
+					order: 2;
+					flex: 1 1 100%;
+				}
+
+				.reaper-text {
+					order: 1;
+					flex: 1 1 100%;
+				}
+
+
+				.enemy-images {
+					order: 4;
+					flex: 1 1 100%;
+				}
+
+				.enemy-text {
+					order: 3;
+					flex: 1 1 100%;
+				}
 
 			}
 

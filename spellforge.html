@@ -52,29 +52,56 @@
 				<!-- Main -->
 					<div id="main">
 
+						<article class="post featured">
+							<header class="major">
+								<span class="date">December 9, 2025</span>
+								<a href="spellforge.html" class="image nohalffit"><img src="https://images-ext-1.discordapp.net/external/YCnsjb9j_NB3Xfc3tCpo9UWwntHKtugbZeF2dL1ValA/https/etgdportfoliostorage.blob.core.windows.net/images/SpellForge/SpellForgeLogo.png?format=webp&quality=lossless" alt="" /></a>
+								<p>Spell Forge is a top-down multiplayer fantasy game where up to four players explore magical maps, collect spells, and battle in fast-paced combat both locally and online. I focused on building the core enemies, creating the new projectile system, and implementing the Reaper miniboss with full phase transitions. I also improved performance by redesigning enemy detection and made the miniboss fully deterministic to ensure synced behavior across all clients.</p>
+							</header>
+						</article>
+
 						<!-- Posts -->
 							<section class="posts">
 								<article>
-									<p class="text-small">While working on the Reaper miniboss AI in Photon Quantum, I discovered a recurring issue where multiple abilities were being scheduled as separate FrameEvents, but Quantum’s deterministic frame queue would occasionally execute them out of order. Because each attack—teleport, shoot, and shockwave—was triggered from different parts of the codebase, the miniboss could end up with overlapping states or back-to-back actions that ignored intended cooldowns. This resulted in desynced client simulations, unpredictable attack patterns, and cases where the miniboss entered conflicting animation states. To solve this, I decided the entire attack-selection process needed to be centralized into a single, deterministic decision step.<br><br>I created a contained function that gathers all relevant state from the miniboss, its health, its phase, and its internal counters, then resolves the next action in one pass. This function ensures that only one FrameEvent is ever queued per decision cycle, and that the event is correctly associated with the miniboss's state machine. By consolidating the logic, I was able to enforce strict ordering, preserve deterministic behavior across clients, and make the boss’s attack loop maintainable and fully predictable. The final system not only fixed the desync issues, but also allowed me to implement more advanced phase behavior, looping attack sequences, and clean transitions between abilities—all controlled through a single, reliable decision-making function.</p>	
+									<header>
+										<h2><a href="#">Major Contributions<br />
+									</header>
+									<ul class="text-small">
+										<li><strong>Enemy System:</strong> Built three unique enemies (slime, walker, projectile enemy), added enemy variants, and placed enemy spawners throughout the map.</li>
+										<li><strong>Reaper Miniboss:</strong> Implemented teleport, projectile, and spread-shot attacks, added a full Phase Two, integrated the new projectile system, and ensured deterministic attack ordering.</li>
+										<li><strong>Performance & Networking:</strong> Replaced enemy-driven detection with player-driven scanning to eliminate physics spikes, and centralized miniboss decision logic to prevent desyncs.</li>
+									</ul>	
+									<a href="#" class="image fit"><img src="images/blank.png" alt=""></a>								
 								</article>
 								<article>
-									<header>
-										<h2><a href="#">Miniboss Logic<br />
-									</header>
+									<a href="#" class="image fit"><img src="images/SpellForgeGeneral1.png" alt="" /></a>
+									<a href="#" class="image fit"><img src="images/SpellForgeGeneral2.png" alt="" /></a>
+								</article>
+
+								<article class="reaper-images">
 									<a href="#" class="image nofit"><img src="images/ReaperCode3.png" alt="" /></a>
 									<a href="#" class="image nofit"><img src="images/ReaperCode2.png" alt="" /></a>
 								</article>
-							
-
-								<article>
+								<article class="reaper-text">
 									<header>
-										<h2><a href="#">Enemy Detection<br />
+										<h2><a href="#">Miniboss Logic<br />
 									</header>
+									<p class="text-small">While working on the Reaper miniboss AI in Photon Quantum, I discovered a recurring issue where multiple abilities were being scheduled as separate FrameEvents, but Quantum’s deterministic frame queue would occasionally execute them out of order. Because each attack—teleport, shoot, and shockwave—was triggered from different parts of the codebase, the miniboss could end up with overlapping states or back-to-back actions that ignored intended cooldowns. This resulted in desynced client simulations, unpredictable attack patterns, and cases where the miniboss entered conflicting animation states. To solve this, I decided the entire attack-selection process needed to be centralized into a single, deterministic decision step.<br><br>I created a contained function that gathers all relevant state from the miniboss, its health, its phase, and its internal counters, then resolves the next action in one pass. This function ensures that only one FrameEvent is ever queued per decision cycle, and that the event is correctly associated with the miniboss's state machine. By consolidating the logic, I was able to enforce strict ordering, preserve deterministic behavior across clients, and make the boss’s attack loop maintainable and fully predictable. The final system not only fixed the desync issues, but also allowed me to implement more advanced phase behavior, looping attack sequences, and clean transitions between abilities—all controlled through a single, reliable decision-making function.</p>
+									<a href="#" class="image fit"><img src="images/ReaperPhase2.gif" alt="" /></a>	
+								</article>
+								
+							
+								
+								<article class="enemy-text">
+									<header>
+										<h2><a href="#">Enemy Detection</a></h2>
+									</header>
+									<p class="text-small">Originally, every enemy in the game performed its own circular Shape2D detection scan each frame to search for nearby players. While this approach was simple, it did not scale—large groups of enemies would each run multiple physics queries every few frames, overwhelming the deterministic physics system and causing noticeable spikes and frame hitches. Because all detection happened on the enemy side, the cost increased linearly with enemy count, and arenas that can contain 100+ active enemies at once suffered from significant performance degradation. It became clear that enemy-driven detection had to be replaced with a more efficient system.<br> <br>The fix was to invert the process: instead of every enemy searching for the player, the player searches for nearby enemies. Once an enemy is found within a player’s detection radius, the enemy is assigned an Aggressive component, which immediately hands control over to the enemy’s state and pathing logic. From that point on, the enemy no longer performs heavy detection queries—it simply reacts and pathfinds toward its assigned target. This player-driven approach reduced the number of physics queries from “potentially hundreds per frame” down to a predictable “once per player per interval,” eliminating lag while maintaining identical gameplay behavior.</p>	
+									<a href="#" class="image fit"><img src="images/EnemyDetection.gif" alt="" /></a>	
+								</article>
+								<article class="enemy-images">
 									<a href="#" class="image nofit"><img src="images/EnemyDetection1.png" alt="" /></a>
 									<a href="#" class="image nofit"><img src="images/EnemyDetection2.png" alt="" /></a>
-								</article>
-								<article>
-									<p class="text-small">Originally, every enemy in the game performed its own circular Shape2D detection scan each frame to search for nearby players. While this approach was simple, it did not scale—large groups of enemies would each run multiple physics queries every few frames, overwhelming the deterministic physics system and causing noticeable spikes and frame hitches. Because all detection happened on the enemy side, the cost increased linearly with enemy count, and arenas that can contain 100+ active enemies at once suffered from significant performance degradation. It became clear that enemy-driven detection had to be replaced with a more efficient system.<br> <br>The fix was to invert the process: instead of every enemy searching for the player, the player searches for nearby enemies. Once an enemy is found within a player’s detection radius, the enemy is assigned an Aggressive component, which immediately hands control over to the enemy’s state and pathing logic. From that point on, the enemy no longer performs heavy detection queries—it simply reacts and pathfinds toward its assigned target. This player-driven approach reduced the number of physics queries from “potentially hundreds per frame” down to a predictable “once per player per interval,” eliminating lag while maintaining identical gameplay behavior.</p>	
 								</article>
 
 							</section>
